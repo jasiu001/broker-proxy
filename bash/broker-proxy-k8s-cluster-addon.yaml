@@ -1,0 +1,11 @@
+apiVersion: addons.kyma-project.io/v1alpha1
+kind: ClusterAddonsConfiguration
+metadata:
+  name: broker-proxy-k8s-addon
+  namespace: default
+  finalizers:
+  - addons.kyma-project.io
+spec:
+  reprocessRequest: 0
+  repositories:
+    - url: git::https://github.com/jasiu001/addons.git//addons/index-broker-proxy-k8s.yaml?ref=broker-proxy-k8s

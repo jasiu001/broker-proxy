@@ -1,0 +1,11 @@
+image: gcr.io/hazel-field-195020/broker-proxy
+tag: latest
+imagePullPolicy: Always
+
+sm:
+  username: "admin"
+  password: "admin"
+  url: "http://10.35.249.108"
+
+addon:
+  path: "git::https://github.com/jasiu001/addons.git//addons/index-broker-proxy-k8s.yaml?ref=broker-proxy-k8s"

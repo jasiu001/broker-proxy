@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ template "name" . }}
+  labels:
+    app: {{ template "name" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
+spec:
+  backoffLimit: 3
+  activeDeadlineSeconds: 100
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "false"
+      labels:
+        app: {{ template "name" . }}-install-job
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        release: "{{ .Release.Name }}"
+        heritage: "{{ .Release.Service }}"
+    spec:
+      restartPolicy: Never
+      serviceAccountName: {{ template "name" . }}
+      containers:
+        - name: broker-proxy-installer
+          image: {{ .Values.image }}:{{ .Values.tag }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          env:
+            - name: NAMESPACE
+              value: {{ .Release.Namespace }}
+            - name: ADDON_PATH
+              value: {{ .Values.addon.path }}
+            - name: SM_USER
+              value: {{ .Values.sm.username }}
+            - name: SM_PASSWORD
+              value: {{ .Values.sm.password }}
+            - name: SM_URL
+              value: {{ .Values.sm.url }}

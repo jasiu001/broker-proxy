@@ -1,0 +1,3 @@
+name: broker-proxy
+description: Chart to install broker proxy by helm Broker
+version: 0.1.0

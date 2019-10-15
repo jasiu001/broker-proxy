@@ -1,0 +1,12 @@
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceInstance
+metadata:
+  name: service-broker-proxy-k8s
+spec:
+  clusterServiceClassExternalName: service-broker-proxy-k8s
+  clusterServicePlanExternalName: default
+  parameters:
+    config:
+      sm:
+        url: "http://10.7.254.85"
+    secretName: "service-manager-credentials"
